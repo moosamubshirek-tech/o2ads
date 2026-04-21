@@ -42,10 +42,8 @@ function AdminLayout() {
     });
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) navigate({ to: "/admin/login" });
-      else {
-        setEmail(data.session.user.email ?? null);
-        setChecking(false);
-      }
+      else setEmail(data.session.user.email ?? null);
+      setChecking(false);
     });
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
