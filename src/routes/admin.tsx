@@ -6,8 +6,17 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — O2 Ads" }] }),
-  component: AdminLayout,
+  component: AdminGate,
 });
+
+function AdminGate() {
+  const location = useLocation();
+  // Login route is public — render it without the auth-protected layout
+  if (location.pathname === "/admin/login") {
+    return <Outlet />;
+  }
+  return <AdminLayout />;
+}
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
