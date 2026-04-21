@@ -1,5 +1,5 @@
 import { useTextScramble } from "@/hooks/use-text-scramble";
-import { MagneticLink } from "./MagneticButton";
+import { MagneticLink } from "../MagneticButton";
 import { O2 } from "@/lib/o2";
 import { ArrowDown } from "lucide-react";
 
