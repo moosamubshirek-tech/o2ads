@@ -48,7 +48,7 @@ function AdminLogin() {
   return (
     <div className="grid min-h-screen place-items-center bg-background px-4">
       <div className="w-full max-w-md">
-        <Link to="/" className="mb-8 block text-center font-display text-3xl font-extrabold uppercase tracking-wider text-crimson">O2.</Link>
+        <Link to="/" className="mb-8 block text-center font-sans text-3xl font-extrabold tracking-tight"><span className="text-crimson">O</span><span className="text-foreground">2.</span></Link>
         <div className="border border-border bg-surface p-8">
           <h1 className="font-display text-3xl font-extrabold uppercase tracking-wider text-foreground">
             {mode === "signin" ? "Admin Sign In" : "Create Admin"}
