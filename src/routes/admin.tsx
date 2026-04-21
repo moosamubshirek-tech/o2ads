@@ -55,7 +55,7 @@ function AdminLayout() {
     <div className="flex min-h-screen bg-background text-foreground">
       <aside className="hidden w-64 shrink-0 border-r border-border bg-surface md:flex md:flex-col">
         <div className="border-b border-border p-6">
-          <Link to="/" className="font-display text-2xl font-extrabold uppercase tracking-wider text-crimson">C2.</Link>
+          <Link to="/" className="font-display text-2xl font-extrabold uppercase tracking-wider text-crimson">O2.</Link>
           <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Admin Panel</p>
         </div>
         <nav className="flex-1 p-3">
