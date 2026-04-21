@@ -87,9 +87,10 @@ export function CrudManager({ table, title, fields, listColumns, orderBy }: Prop
       }
     }
 
+    const client = supabase.from(table) as any;
     const { error } = editing.id
-      ? await supabase.from(table).update(payload).eq("id", editing.id)
-      : await supabase.from(table).insert(payload);
+      ? await client.update(payload).eq("id", editing.id)
+      : await client.insert(payload);
 
     setSaving(false);
     if (error) return toast.error(error.message);
