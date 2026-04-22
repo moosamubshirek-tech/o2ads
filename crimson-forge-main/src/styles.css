@@ -46,37 +46,37 @@
 :root {
   --radius: 0.25rem;
 
-  --background: oklch(0.05 0 0);            /* #0A0A0A jet black */
-  --foreground: oklch(0.94 0.012 80);       /* #F0EDE6 off-white */
-  --surface: oklch(0.10 0 0);               /* #111111 charcoal */
+  --background: oklch(0.98 0.01 50);        /* warm white */
+  --foreground: oklch(0.15 0.05 45);       /* dark brown */
+  --surface: oklch(0.95 0.02 50);           /* light cream */
 
-  --card: oklch(0.10 0 0);
-  --card-foreground: oklch(0.94 0.012 80);
-  --popover: oklch(0.10 0 0);
-  --popover-foreground: oklch(0.94 0.012 80);
+  --card: oklch(0.98 0.01 50);
+  --card-foreground: oklch(0.15 0.05 45);
+  --popover: oklch(0.98 0.01 50);
+  --popover-foreground: oklch(0.15 0.05 45);
 
-  --primary: oklch(0.42 0.20 28);           /* #8B0000 blood red */
-  --primary-foreground: oklch(0.97 0.012 80);
-  --crimson: oklch(0.50 0.235 28);          /* #CC0000 crimson */
-  --blood: oklch(0.42 0.20 28);
+  --primary: oklch(0.25 0.12 45);           /* brown */
+  --primary-foreground: oklch(0.98 0.01 50);
+  --crimson: oklch(0.30 0.15 45);            /* light brown */
+  --blood: oklch(0.25 0.12 45);
 
-  --secondary: oklch(0.16 0.02 28);
-  --secondary-foreground: oklch(0.94 0.012 80);
-  --muted: oklch(0.14 0 0);
-  --muted-foreground: oklch(0.60 0 0);      /* #888888 cool gray */
-  --accent: oklch(0.50 0.235 28);
-  --accent-foreground: oklch(0.97 0.012 80);
-  --destructive: oklch(0.50 0.235 28);
-  --destructive-foreground: oklch(0.97 0.012 80);
-  --border: oklch(0.20 0.08 28);            /* #2A0000 dark red tint */
-  --input: oklch(0.18 0.05 28);
-  --ring: oklch(0.50 0.235 28);
+  --secondary: oklch(0.90 0.03 50);
+  --secondary-foreground: oklch(0.15 0.05 45);
+  --muted: oklch(0.92 0.02 50);
+  --muted-foreground: oklch(0.45 0.08 45);  /* medium brown */
+  --accent: oklch(0.25 0.12 45);
+  --accent-foreground: oklch(0.98 0.01 50);
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.98 0.01 50);
+  --border: oklch(0.85 0.05 50);            /* tan */
+  --input: oklch(0.85 0.05 50);
+  --ring: oklch(0.30 0.15 45);
 }
 
 .dark {
-  /* Site is always dark; .dark mirrors :root */
-  --background: oklch(0.05 0 0);
-  --foreground: oklch(0.94 0.012 80);
+  /* Light theme overrides */
+  --background: oklch(0.98 0.01 50);
+  --foreground: oklch(0.15 0.05 45);
 }
 
 @layer base {
