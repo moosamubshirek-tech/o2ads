@@ -13,31 +13,17 @@ export function InstagramFeed() {
           </h2>
         </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-6">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <a
-              key={i}
-              href={O2.instagramUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative aspect-square overflow-hidden border border-border bg-surface"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-blood/30 to-transparent" />
-              <div className="absolute inset-0 grid place-items-center opacity-0 transition-opacity group-hover:opacity-100">
-                <Instagram className="h-8 w-8 text-crimson" />
-              </div>
-            </a>
-          ))}
-        </div>
-
-        <div className="mt-10 text-center">
+        <div className="reveal mt-12 border border-border bg-surface p-8 text-center md:p-12">
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            Follow us on Instagram for daily brand inspiration, trend content, and behind-the-scenes looks at what we build.
+          </p>
           <a
             href={O2.instagramUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 border border-foreground/40 px-6 py-3 font-display text-xs font-bold uppercase tracking-[0.18em] hover:border-crimson hover:text-crimson"
+            className="mt-8 inline-flex items-center gap-2 bg-crimson px-7 py-4 font-display text-sm font-bold uppercase tracking-[0.18em] text-foreground hover:bg-blood"
           >
-            <Instagram className="h-4 w-4" /> Follow on Instagram
+            <Instagram className="h-4 w-4" /> Follow @{O2.instagram}
           </a>
         </div>
       </div>
