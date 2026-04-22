@@ -1,5 +1,8 @@
 {
-  "buildCommand": "npm run build && node scripts/generate-index.js",
+  "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "outputDirectory": "dist/client"
+  "outputDirectory": "dist/client",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
+  ]
 }
