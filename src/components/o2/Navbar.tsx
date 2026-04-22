@@ -42,7 +42,7 @@ export function Navbar() {
           hidden ? "-translate-y-full" : "translate-y-0"
         } ${scrolled ? "bg-background/85 backdrop-blur-md border-b border-border" : "bg-transparent"}`}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-5 md:h-20 md:px-8">
           <Link to="/" className="flex items-center">
             <Logo />
           </Link>
@@ -81,19 +81,19 @@ export function Navbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-[80] flex flex-col bg-background animate-fade-in">
-          <div className="flex h-16 items-center justify-between px-5">
+        <div className="fixed inset-0 z-[80] flex flex-col overflow-y-auto bg-background animate-fade-in">
+          <div className="flex h-16 shrink-0 items-center justify-between px-4 sm:px-5">
             <Logo />
             <button onClick={() => setMobileOpen(false)} aria-label="Close menu">
               <X className="h-7 w-7 text-foreground" />
             </button>
           </div>
-          <div className="flex flex-1 flex-col items-start justify-center gap-7 px-8">
+          <div className="flex flex-1 flex-col items-start justify-center gap-5 px-5 py-8 sm:gap-7 sm:px-8">
             {links.map((l) => (
               <button
                 key={l.id}
                 onClick={() => scrollTo(l.id)}
-                className="font-display text-5xl font-extrabold uppercase tracking-tight text-foreground hover:text-crimson"
+                className="max-w-full break-words text-left font-display text-4xl font-extrabold uppercase tracking-normal text-foreground hover:text-crimson sm:text-5xl"
               >
                 {l.label}
               </button>
@@ -102,7 +102,7 @@ export function Navbar() {
               href={O2.whatsapp}
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 bg-crimson px-6 py-4 font-display text-sm font-bold uppercase tracking-[0.18em]"
+              className="mt-4 inline-flex max-w-full items-center gap-2 bg-crimson px-5 py-4 font-display text-sm font-bold uppercase tracking-[0.14em] text-foreground sm:mt-6 sm:px-6 sm:tracking-[0.18em]"
             >
               Get Started
             </a>

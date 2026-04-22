@@ -82,7 +82,7 @@ export function Portfolio() {
 
   return (
     <section id="works" className="relative bg-background py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <div className="reveal flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="font-display text-xs uppercase tracking-[0.3em] text-crimson">Portfolio</p>
@@ -117,7 +117,7 @@ export function Portfolio() {
             <div
               key={`${it.title}-${i}`}
               className="portfolio-card group relative shrink-0 overflow-hidden border border-border"
-              style={{ width: "min(80vw, 420px)", aspectRatio: "4/5" }}
+              style={{ width: "min(88vw, 420px)", aspectRatio: "4/5" }}
             >
               <img
                 src={img}
@@ -131,7 +131,7 @@ export function Portfolio() {
                 <span className="inline-block bg-crimson px-2 py-1 font-display text-[10px] uppercase tracking-[0.18em]">
                   {it.category}
                 </span>
-                <h3 className="mt-3 font-display text-2xl font-bold uppercase text-foreground">
+                <h3 className="mt-3 break-words font-display text-2xl font-bold uppercase tracking-normal text-foreground">
                   {it.title}
                 </h3>
                 {it.description && (

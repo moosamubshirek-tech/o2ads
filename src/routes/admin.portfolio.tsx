@@ -113,7 +113,7 @@ function PortfolioPage() {
                 ) : (
                   <div className="grid h-full place-items-center text-sm text-muted-foreground">No image</div>
                 )}
-                <div className="absolute right-2 top-2 flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute right-2 top-2 flex gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
                   <button
                     onClick={() => setEditingItem(item)}
                     className="grid h-9 w-9 place-items-center bg-background/80 text-foreground hover:bg-crimson hover:text-foreground"
@@ -235,20 +235,20 @@ function AddWorkForm({
   const inputCls = "w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition-colors focus:border-crimson focus:outline-none";
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-background/80 px-4 py-6">
+    <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-background/80 px-3 py-4 sm:px-4 sm:py-6">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-border bg-surface">
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <h2 className="font-display text-2xl font-bold uppercase">{isEditing ? "Edit Work" : "Add New Work"}</h2>
+        <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-4 sm:px-6">
+          <h2 className="break-words font-display text-xl font-bold uppercase tracking-normal sm:text-2xl">{isEditing ? "Edit Work" : "Add New Work"}</h2>
           <button onClick={onClose} className="grid h-9 w-9 place-items-center border border-border text-muted-foreground hover:border-crimson hover:text-crimson" aria-label="Close form">
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="space-y-4 p-6">
+        <div className="space-y-4 p-4 sm:p-6">
           <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={onFileChange} />
           {preview ? (
             <div className="relative overflow-hidden border border-border bg-background">
-              <img src={preview} alt="Selected work preview" className="h-64 w-full object-cover" />
+              <img src={preview} alt="Selected work preview" className="h-52 w-full object-cover sm:h-64" />
               <button
                 onClick={clearImage}
                 className="absolute right-2 top-2 grid h-8 w-8 place-items-center bg-background/80 text-crimson hover:bg-crimson hover:text-foreground"
@@ -283,14 +283,14 @@ function AddWorkForm({
           />
         </div>
 
-        <div className="flex justify-end gap-3 border-t border-border px-6 py-4">
-          <button onClick={onClose} className="border border-border px-5 py-2.5 font-display text-xs uppercase tracking-[0.18em] text-muted-foreground hover:border-crimson hover:text-crimson">
+        <div className="flex flex-col-reverse gap-3 border-t border-border px-4 py-4 sm:flex-row sm:justify-end sm:px-6">
+          <button onClick={onClose} className="border border-border px-5 py-2.5 font-display text-xs uppercase tracking-[0.14em] text-muted-foreground hover:border-crimson hover:text-crimson sm:tracking-[0.18em]">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={saving}
-            className="inline-flex items-center gap-2 bg-crimson px-6 py-2.5 font-display text-xs font-bold uppercase tracking-[0.18em] text-foreground hover:bg-blood disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 bg-crimson px-6 py-2.5 font-display text-xs font-bold uppercase tracking-[0.14em] text-foreground hover:bg-blood disabled:opacity-60 sm:tracking-[0.18em]"
           >
             {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
             {isEditing ? "Update Work" : "Save Work"}
