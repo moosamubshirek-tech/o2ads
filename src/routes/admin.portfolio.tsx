@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Loader2, Trash2, Plus, UploadCloud, X } from "lucide-react";
+import { Loader2, Trash2, Plus, UploadCloud, X, Pencil } from "lucide-react";
 
 export const Route = createFileRoute("/admin/portfolio")({
   component: PortfolioPage,
@@ -23,6 +23,7 @@ function PortfolioPage() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null);
 
   const fetchItems = async () => {
     const { data, error } = await supabase
@@ -83,6 +84,17 @@ function PortfolioPage() {
         />
       )}
 
+      {editingItem && (
+        <AddWorkForm
+          item={editingItem}
+          onClose={() => setEditingItem(null)}
+          onUpdated={(updated) => {
+            setItems((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+            setEditingItem(null);
+          }}
+        />
+      )}
+
       {loading ? (
         <div className="grid min-h-[260px] place-items-center">
           <Loader2 className="h-6 w-6 animate-spin text-crimson" />
@@ -101,14 +113,24 @@ function PortfolioPage() {
                 ) : (
                   <div className="grid h-full place-items-center text-sm text-muted-foreground">No image</div>
                 )}
-                <button
-                  onClick={() => handleDelete(item)}
-                  className="absolute right-2 top-2 grid h-9 w-9 place-items-center bg-background/80 text-crimson opacity-0 transition-opacity group-hover:opacity-100 hover:bg-crimson hover:text-foreground"
-                  title="Delete"
-                  aria-label={`Delete ${item.title}`}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                <div className="absolute right-2 top-2 flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    onClick={() => setEditingItem(item)}
+                    className="grid h-9 w-9 place-items-center bg-background/80 text-foreground hover:bg-crimson hover:text-foreground"
+                    title="Edit"
+                    aria-label={`Edit ${item.title}`}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item)}
+                    className="grid h-9 w-9 place-items-center bg-background/80 text-crimson hover:bg-crimson hover:text-foreground"
+                    title="Delete"
+                    aria-label={`Delete ${item.title}`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
               <div className="p-4">
                 <span className="inline-block bg-crimson px-2 py-1 font-display text-[10px] uppercase tracking-[0.18em] text-foreground">
@@ -125,14 +147,25 @@ function PortfolioPage() {
   );
 }
 
-function AddWorkForm({ onClose, onAdded }: { onClose: () => void; onAdded: (item: PortfolioItem) => void }) {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState(CATEGORIES[0]);
-  const [description, setDescription] = useState("");
+function AddWorkForm({
+  item,
+  onClose,
+  onAdded,
+  onUpdated,
+}: {
+  item?: PortfolioItem;
+  onClose: () => void;
+  onAdded?: (item: PortfolioItem) => void;
+  onUpdated?: (item: PortfolioItem) => void;
+}) {
+  const [title, setTitle] = useState(item?.title ?? "");
+  const [category, setCategory] = useState(item?.category ?? CATEGORIES[0]);
+  const [description, setDescription] = useState(item?.description ?? "");
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(item?.image_url ?? null);
   const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const isEditing = Boolean(item);
 
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -157,35 +190,36 @@ function AddWorkForm({ onClose, onAdded }: { onClose: () => void; onAdded: (item
       toast.error("Title is required.");
       return;
     }
-    if (!imageFile) {
+    if (!imageFile && !item?.image_url) {
       toast.error("Please select an image.");
       return;
     }
 
     setSaving(true);
-    const ext = imageFile.name.split(".").pop();
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error: uploadError } = await supabase.storage
-      .from("portfolio-images")
-      .upload(fileName, imageFile, { contentType: imageFile.type, upsert: false });
+    let imageUrl = item?.image_url ?? null;
 
-    if (uploadError) {
-      toast.error("Image upload failed: " + uploadError.message);
-      setSaving(false);
-      return;
+    if (imageFile) {
+      const ext = imageFile.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("portfolio-images")
+        .upload(fileName, imageFile, { contentType: imageFile.type, upsert: false });
+
+      if (uploadError) {
+        toast.error("Image upload failed: " + uploadError.message);
+        setSaving(false);
+        return;
+      }
+
+      const { data: publicUrlData } = supabase.storage.from("portfolio-images").getPublicUrl(fileName);
+      imageUrl = publicUrlData.publicUrl;
     }
 
-    const { data: publicUrlData } = supabase.storage.from("portfolio-images").getPublicUrl(fileName);
-    const { data, error } = await supabase
-      .from("portfolio")
-      .insert({
-        title: title.trim(),
-        category,
-        description: description.trim() || null,
-        image_url: publicUrlData.publicUrl,
-      })
-      .select()
-      .single();
+    const payload = { title: title.trim(), category, description: description.trim() || null, image_url: imageUrl };
+    const query = isEditing && item
+      ? supabase.from("portfolio").update(payload).eq("id", item.id).select().single()
+      : supabase.from("portfolio").insert(payload).select().single();
+    const { data, error } = await query;
 
     setSaving(false);
     if (error) {
@@ -193,8 +227,9 @@ function AddWorkForm({ onClose, onAdded }: { onClose: () => void; onAdded: (item
       return;
     }
 
-    toast.success("Work added!");
-    onAdded(data as PortfolioItem);
+    toast.success(isEditing ? "Work updated!" : "Work added!");
+    if (isEditing) onUpdated?.(data as PortfolioItem);
+    else onAdded?.(data as PortfolioItem);
   };
 
   const inputCls = "w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground transition-colors focus:border-crimson focus:outline-none";
@@ -203,7 +238,7 @@ function AddWorkForm({ onClose, onAdded }: { onClose: () => void; onAdded: (item
     <div className="fixed inset-0 z-50 grid place-items-center bg-background/80 px-4 py-6">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-border bg-surface">
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <h2 className="font-display text-2xl font-bold uppercase">Add New Work</h2>
+          <h2 className="font-display text-2xl font-bold uppercase">{isEditing ? "Edit Work" : "Add New Work"}</h2>
           <button onClick={onClose} className="grid h-9 w-9 place-items-center border border-border text-muted-foreground hover:border-crimson hover:text-crimson" aria-label="Close form">
             <X className="h-4 w-4" />
           </button>
@@ -258,7 +293,7 @@ function AddWorkForm({ onClose, onAdded }: { onClose: () => void; onAdded: (item
             className="inline-flex items-center gap-2 bg-crimson px-6 py-2.5 font-display text-xs font-bold uppercase tracking-[0.18em] text-foreground hover:bg-blood disabled:opacity-60"
           >
             {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            Save Work
+            {isEditing ? "Update Work" : "Save Work"}
           </button>
         </div>
       </div>
