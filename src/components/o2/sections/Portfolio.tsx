@@ -71,11 +71,12 @@ export function Portfolio() {
     const el = scrollRef.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         el.scrollLeft += e.deltaY;
       }
     };
-    el.addEventListener("wheel", onWheel, { passive: true });
+    el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
   }, []);
 

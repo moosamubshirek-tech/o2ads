@@ -27,7 +27,7 @@ export function Pricing() {
   }, []);
 
   return (
-    <section className="relative bg-background py-24 md:py-32">
+    <section id="pricing" className="relative bg-background py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="reveal">
           <p className="font-display text-xs uppercase tracking-[0.3em] text-crimson">Plans</p>

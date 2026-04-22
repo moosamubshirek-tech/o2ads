@@ -13,21 +13,22 @@ const BUDGETS = ["< ₹15k / mo", "₹15k – 35k / mo", "₹35k – 75k / mo", 
 export function Contact() {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    full_name: "", business_name: "", service: SERVICES[0], budget: BUDGETS[0], message: "",
+    full_name: "", business_name: "", email: "", service: SERVICES[0], budget: BUDGETS[0], message: "",
   });
 
   const set = (k: keyof typeof form) => (e: any) => setForm({ ...form, [k]: e.target.value });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.full_name.trim() || !form.message.trim()) {
-      toast.error("Please add your name and a message.");
+    if (!form.full_name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast.error("Please add your name, email, and a message.");
       return;
     }
     setLoading(true);
     const { error } = await supabase.from("contact_submissions").insert({
       full_name: form.full_name,
       business_name: form.business_name || null,
+      email: form.email,
       service: form.service,
       budget: form.budget,
       message: form.message,
@@ -38,7 +39,7 @@ export function Contact() {
       return;
     }
     toast.success("Message received. We'll be in touch within hours.");
-    setForm({ full_name: "", business_name: "", service: SERVICES[0], budget: BUDGETS[0], message: "" });
+    setForm({ full_name: "", business_name: "", email: "", service: SERVICES[0], budget: BUDGETS[0], message: "" });
   };
 
   const inputCls = "w-full bg-surface border border-border px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-crimson transition-colors";
@@ -59,6 +60,7 @@ export function Contact() {
               <input className={inputCls} placeholder="Full Name *" value={form.full_name} onChange={set("full_name")} />
               <input className={inputCls} placeholder="Business Name" value={form.business_name} onChange={set("business_name")} />
             </div>
+            <input className={inputCls} type="email" placeholder="Email *" value={form.email} onChange={set("email")} />
             <div className="grid gap-4 md:grid-cols-2">
               <select className={inputCls} value={form.service} onChange={set("service")}>
                 {SERVICES.map((s) => <option key={s} value={s}>{s}</option>)}
