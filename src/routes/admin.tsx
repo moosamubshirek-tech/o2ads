@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, MessageSquare, Users, Tag, Briefcase, Image, Folder, LogOut, Loader2, Mail } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Users, Tag, Briefcase, Image, Folder, LogOut, Loader2, Mail, Menu, X } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -34,6 +34,7 @@ function AdminLayout() {
   const location = useLocation();
   const [checking, setChecking] = useState(true);
   const [email, setEmail] = useState<string | null>(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -59,7 +60,40 @@ function AdminLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground md:flex-row">
+      <div className="flex items-center justify-between border-b border-border bg-surface px-4 py-3 md:hidden">
+        <Link to="/" className="font-sans text-2xl font-extrabold tracking-tight"><span className="text-crimson">O</span><span className="text-foreground">2.</span></Link>
+        <button onClick={() => setMobileNavOpen(true)} aria-label="Open admin menu" className="grid h-10 w-10 place-items-center border border-border text-foreground">
+          <Menu className="h-5 w-5" />
+        </button>
+      </div>
+
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <button className="absolute inset-0 bg-background/80" onClick={() => setMobileNavOpen(false)} aria-label="Close admin menu overlay" />
+          <div className="animate-fade-in absolute left-0 top-0 h-full w-72 border-r border-border bg-surface p-4">
+            <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
+              <Link to="/" className="font-sans text-xl font-extrabold tracking-tight" onClick={() => setMobileNavOpen(false)}><span className="text-crimson">O</span><span className="text-foreground">2.</span> <span className="text-sm text-muted-foreground">Admin</span></Link>
+              <button onClick={() => setMobileNavOpen(false)} aria-label="Close menu" className="grid h-9 w-9 place-items-center border border-border text-foreground">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <nav>
+              {NAV.map((item) => {
+                const Icon = item.icon;
+                const active = item.exact ? location.pathname === item.to : location.pathname.startsWith(item.to);
+                return (
+                  <Link key={item.to} to={item.to} onClick={() => setMobileNavOpen(false)} className={`mb-1 flex items-center gap-3 px-3 py-2.5 text-sm transition-colors ${active ? "bg-crimson text-foreground" : "text-muted-foreground hover:bg-background hover:text-foreground"}`}>
+                    <Icon className="h-4 w-4" />
+                    <span className="font-display uppercase tracking-wider">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
+
       <aside className="hidden w-64 shrink-0 border-r border-border bg-surface md:flex md:flex-col">
         <div className="border-b border-border p-6">
           <Link to="/" className="font-sans text-2xl font-extrabold tracking-tight"><span className="text-crimson">O</span><span className="text-foreground">2.</span></Link>
