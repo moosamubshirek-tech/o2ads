@@ -238,7 +238,7 @@ function AddWorkForm({
     <div className="fixed inset-0 z-50 grid place-items-center bg-background/80 px-4 py-6">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-border bg-surface">
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <h2 className="font-display text-2xl font-bold uppercase">Add New Work</h2>
+          <h2 className="font-display text-2xl font-bold uppercase">{isEditing ? "Edit Work" : "Add New Work"}</h2>
           <button onClick={onClose} className="grid h-9 w-9 place-items-center border border-border text-muted-foreground hover:border-crimson hover:text-crimson" aria-label="Close form">
             <X className="h-4 w-4" />
           </button>
@@ -293,7 +293,7 @@ function AddWorkForm({
             className="inline-flex items-center gap-2 bg-crimson px-6 py-2.5 font-display text-xs font-bold uppercase tracking-[0.18em] text-foreground hover:bg-blood disabled:opacity-60"
           >
             {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            Save Work
+            {isEditing ? "Update Work" : "Save Work"}
           </button>
         </div>
       </div>
