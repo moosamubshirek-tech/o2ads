@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Loader2, Trash2, Plus, UploadCloud, X } from "lucide-react";
+import { Loader2, Trash2, Plus, UploadCloud, X, Pencil } from "lucide-react";
 
 export const Route = createFileRoute("/admin/portfolio")({
   component: PortfolioPage,
@@ -23,6 +23,7 @@ function PortfolioPage() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null);
 
   const fetchItems = async () => {
     const { data, error } = await supabase
@@ -83,6 +84,17 @@ function PortfolioPage() {
         />
       )}
 
+      {editingItem && (
+        <AddWorkForm
+          item={editingItem}
+          onClose={() => setEditingItem(null)}
+          onUpdated={(updated) => {
+            setItems((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+            setEditingItem(null);
+          }}
+        />
+      )}
+
       {loading ? (
         <div className="grid min-h-[260px] place-items-center">
           <Loader2 className="h-6 w-6 animate-spin text-crimson" />
@@ -101,14 +113,24 @@ function PortfolioPage() {
                 ) : (
                   <div className="grid h-full place-items-center text-sm text-muted-foreground">No image</div>
                 )}
-                <button
-                  onClick={() => handleDelete(item)}
-                  className="absolute right-2 top-2 grid h-9 w-9 place-items-center bg-background/80 text-crimson opacity-0 transition-opacity group-hover:opacity-100 hover:bg-crimson hover:text-foreground"
-                  title="Delete"
-                  aria-label={`Delete ${item.title}`}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                <div className="absolute right-2 top-2 flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    onClick={() => setEditingItem(item)}
+                    className="grid h-9 w-9 place-items-center bg-background/80 text-foreground hover:bg-crimson hover:text-foreground"
+                    title="Edit"
+                    aria-label={`Edit ${item.title}`}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item)}
+                    className="grid h-9 w-9 place-items-center bg-background/80 text-crimson hover:bg-crimson hover:text-foreground"
+                    title="Delete"
+                    aria-label={`Delete ${item.title}`}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
               <div className="p-4">
                 <span className="inline-block bg-crimson px-2 py-1 font-display text-[10px] uppercase tracking-[0.18em] text-foreground">
