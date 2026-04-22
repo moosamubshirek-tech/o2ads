@@ -24,8 +24,7 @@ export function Hero() {
             <span className="relative block">
               {line2}
               <span
-                className="font-script absolute right-0 top-full -translate-y-1/4 text-3xl text-crimson sm:-right-2 sm:top-1/2 sm:-translate-y-1/2 md:-right-10 md:text-6xl"
-                style={{ transform: "translateY(-50%) rotate(-8deg)" }}
+                className="font-script absolute right-0 top-full -translate-y-1/4 -rotate-[8deg] text-3xl text-crimson sm:-right-2 sm:top-1/2 sm:-translate-y-1/2 md:-right-10 md:text-6xl"
               >
                 organically
               </span>
