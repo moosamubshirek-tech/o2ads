@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, MessageSquare, Users, Tag, Briefcase, Image, Folder, LogOut, Loader2, Mail, Menu, X } from "lucide-react";
+import { LayoutDashboard, MessageSquare, Users, Tag, Briefcase, Image, Folder, LogOut, Loader2, Mail, Menu, Settings, X } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin")({
@@ -27,6 +27,7 @@ const NAV = [
   { to: "/admin/client-logos", label: "Client Logos", icon: Image, exact: false },
   { to: "/admin/portfolio", label: "Portfolio", icon: Folder, exact: false },
   { to: "/admin/submissions", label: "Submissions", icon: Mail, exact: false },
+  { to: "/admin/settings", label: "Settings", icon: Settings, exact: false },
 ] as const;
 
 function AdminLayout() {
