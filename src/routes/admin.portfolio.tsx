@@ -247,8 +247,8 @@ function AddWorkForm({
         <div className="space-y-4 p-4 sm:p-6">
           <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={onFileChange} />
           {preview ? (
-            <div className="relative overflow-hidden border border-border bg-background">
-              <img src={preview} alt="Selected work preview" className="h-52 w-full object-cover sm:h-64" />
+            <div className="relative grid min-h-[300px] place-items-center overflow-hidden border border-border bg-background p-2 sm:min-h-[360px]">
+              <img src={preview} alt="Selected work preview" className="max-h-[70vh] w-full object-contain" />
               <button
                 onClick={clearImage}
                 className="absolute right-2 top-2 grid h-8 w-8 place-items-center bg-background/80 text-crimson hover:bg-crimson hover:text-foreground"
