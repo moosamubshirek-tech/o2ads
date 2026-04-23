@@ -1,9 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { O2 } from "@/lib/o2";
-import { Instagram, Mail, MessageCircle } from "lucide-react";
+import { useSiteSettings } from "@/hooks/use-site-settings";
+import { Facebook, Instagram, Mail, MessageCircle } from "lucide-react";
 
 export function Footer() {
+  const settings = useSiteSettings();
+
   return (
     <footer className="border-t border-crimson/40 bg-background">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-3 md:px-8">
@@ -32,21 +35,27 @@ export function Footer() {
             Connect
           </h4>
           <div className="mt-4 flex gap-4">
-            <a href={O2.instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram"
+            <a href={settings.instagramUrl} target="_blank" rel="noreferrer" aria-label="Instagram"
               className="grid h-11 w-11 place-items-center border border-border hover:border-crimson hover:text-crimson">
               <Instagram className="h-5 w-5" />
             </a>
-            <a href={O2.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp"
+            {settings.facebookUrl && (
+              <a href={settings.facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook"
+                className="grid h-11 w-11 place-items-center border border-border hover:border-crimson hover:text-crimson">
+                <Facebook className="h-5 w-5" />
+              </a>
+            )}
+            <a href={settings.whatsappUrl} target="_blank" rel="noreferrer" aria-label="WhatsApp"
               className="grid h-11 w-11 place-items-center border border-border hover:border-crimson hover:text-crimson">
               <MessageCircle className="h-5 w-5" />
             </a>
-            <a href={`mailto:${O2.email}`} aria-label="Email"
+            <a href={`mailto:${settings.email}`} aria-label="Email"
               className="grid h-11 w-11 place-items-center border border-border hover:border-crimson hover:text-crimson">
               <Mail className="h-5 w-5" />
             </a>
           </div>
-          <p className="mt-6 text-sm text-muted-foreground">{O2.email}</p>
-          <p className="text-sm text-muted-foreground">{O2.phone}</p>
+          <p className="mt-6 text-sm text-muted-foreground">{settings.email}</p>
+          <p className="text-sm text-muted-foreground">{settings.phoneDisplay}</p>
         </div>
       </div>
 
