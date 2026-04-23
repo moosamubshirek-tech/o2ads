@@ -1,7 +1,9 @@
-import { O2 } from "@/lib/o2";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { MagneticLink } from "../MagneticButton";
 
 export function ConsultationBanner() {
+  const settings = useSiteSettings();
+
   return (
     <section className="relative overflow-hidden">
       <div
@@ -17,7 +19,7 @@ export function ConsultationBanner() {
           </p>
           <div className="mt-8 flex justify-center">
             <MagneticLink
-              href={O2.whatsapp}
+              href={settings.whatsappUrl}
               target="_blank"
               rel="noreferrer"
               className="bg-background text-foreground hover:bg-foreground hover:text-background"
