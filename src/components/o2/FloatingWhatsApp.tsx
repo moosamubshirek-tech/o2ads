@@ -1,10 +1,12 @@
-import { O2 } from "@/lib/o2";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { MessageCircle } from "lucide-react";
 
 export function FloatingWhatsApp() {
+  const settings = useSiteSettings();
+
   return (
     <a
-      href={O2.whatsapp}
+      href={settings.whatsappUrl}
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
