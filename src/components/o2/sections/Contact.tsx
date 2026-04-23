@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { O2 } from "@/lib/o2";
+import { instagramHandle } from "@/lib/o2";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { toast } from "sonner";
-import { Instagram, MessageCircle, Mail, Phone, Loader2 } from "lucide-react";
+import { Facebook, Instagram, MessageCircle, Mail, Phone, Loader2 } from "lucide-react";
 
 const SERVICES = [
   "Social Media Management", "Personal Branding", "Paid Ads", "Authority SEO",
@@ -11,6 +12,8 @@ const SERVICES = [
 const BUDGETS = ["< ₹15k / mo", "₹15k – 35k / mo", "₹35k – 75k / mo", "₹75k+ / mo"];
 
 export function Contact() {
+  const settings = useSiteSettings();
+  const handle = instagramHandle(settings.instagramUrl);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     full_name: "", business_name: "", email: "", service: SERVICES[0], budget: BUDGETS[0], message: "",
@@ -81,11 +84,12 @@ export function Contact() {
           </form>
 
           <aside className="reveal space-y-5">
-            <ContactRow icon={<Instagram className="h-5 w-5" />} label="Instagram" value={`@${O2.instagram}`} href={O2.instagramUrl} />
-            <ContactRow icon={<Phone className="h-5 w-5" />} label="Phone" value={O2.phone} href={`tel:${O2.phoneRaw}`} />
-            <ContactRow icon={<Mail className="h-5 w-5" />} label="Email" value={O2.email} href={`mailto:${O2.email}`} />
+            <ContactRow icon={<Instagram className="h-5 w-5" />} label="Instagram" value={`@${handle}`} href={settings.instagramUrl} />
+            {settings.facebookUrl && <ContactRow icon={<Facebook className="h-5 w-5" />} label="Facebook" value="O2 Ads" href={settings.facebookUrl} />}
+            <ContactRow icon={<Phone className="h-5 w-5" />} label="Phone" value={settings.phoneDisplay} href={`tel:${settings.phoneRaw}`} />
+            <ContactRow icon={<Mail className="h-5 w-5" />} label="Email" value={settings.email} href={`mailto:${settings.email}`} />
             <a
-              href={O2.whatsapp}
+              href={settings.whatsappUrl}
               target="_blank"
               rel="noreferrer"
               className="mt-4 flex items-center justify-center gap-3 bg-[#25D366] px-6 py-5 font-display text-base font-bold uppercase tracking-[0.18em] text-white transition-transform hover:scale-[1.02]"
