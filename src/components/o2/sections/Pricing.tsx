@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Check } from "lucide-react";
-import { O2 } from "@/lib/o2";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 
 type Tier = { tier_name: string; price: string; features: string[]; is_popular?: boolean | null; display_order?: number | null };
 
@@ -12,6 +12,7 @@ const FALLBACK: Tier[] = [
 ];
 
 export function Pricing() {
+  const settings = useSiteSettings();
   const [items, setItems] = useState<Tier[]>(FALLBACK);
   useEffect(() => {
     supabase.from("pricing").select("*").order("display_order").then(({ data, error }) => {
@@ -60,7 +61,7 @@ export function Pricing() {
                 ))}
               </ul>
               <a
-                href={O2.whatsapp}
+                href={settings.whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
                 className={`mt-7 inline-flex w-full items-center justify-center px-5 py-3 font-display text-xs font-bold uppercase tracking-[0.18em] transition-colors ${
