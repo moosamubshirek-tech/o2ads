@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
-import { O2 } from "@/lib/o2";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { Menu, X } from "lucide-react";
 
 const links = [
@@ -13,6 +13,7 @@ const links = [
 ];
 
 export function Navbar() {
+  const settings = useSiteSettings();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,7 +62,7 @@ export function Navbar() {
 
           <div className="hidden md:block">
             <a
-              href={O2.whatsapp}
+              href={settings.whatsappUrl}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 bg-crimson px-5 py-3 font-display text-xs font-bold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-blood"
@@ -99,7 +100,7 @@ export function Navbar() {
               </button>
             ))}
             <a
-              href={O2.whatsapp}
+              href={settings.whatsappUrl}
               target="_blank"
               rel="noreferrer"
               className="mt-4 inline-flex max-w-full items-center gap-2 bg-crimson px-5 py-4 font-display text-sm font-bold uppercase tracking-[0.14em] text-foreground sm:mt-6 sm:px-6 sm:tracking-[0.18em]"

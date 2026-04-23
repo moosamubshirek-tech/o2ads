@@ -1,9 +1,11 @@
 import { useTextScramble } from "@/hooks/use-text-scramble";
 import { MagneticLink } from "../MagneticButton";
 import { O2 } from "@/lib/o2";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { ArrowDown } from "lucide-react";
 
 export function Hero() {
+  const settings = useSiteSettings();
   const line1 = useTextScramble("WE BUILD", 1300);
   const line2 = useTextScramble("BRANDS.", 1700);
 
@@ -42,7 +44,7 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-            <MagneticLink href={O2.whatsapp} target="_blank" rel="noreferrer">
+            <MagneticLink href={settings.whatsappUrl} target="_blank" rel="noreferrer">
               Start a Project
             </MagneticLink>
             <button
