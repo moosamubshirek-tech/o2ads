@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/o2/Navbar";
 import { Footer } from "@/components/o2/Footer";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => ({
@@ -13,6 +14,8 @@ export const Route = createFileRoute("/privacy-policy")({
 });
 
 function PrivacyPolicy() {
+  const settings = useSiteSettings();
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
@@ -48,7 +51,7 @@ function PrivacyPolicy() {
             <h2 className="font-display text-2xl font-bold uppercase text-crimson">Your rights</h2>
             <p className="mt-3 text-base">
               You can request deletion of your data at any time by writing to{" "}
-              <a className="text-crimson underline" href="mailto:official.o2ads@gmail.com">official.o2ads@gmail.com</a>.
+              <a className="text-crimson underline" href={`mailto:${settings.email}`}>{settings.email}</a>.
             </p>
           </section>
         </div>
